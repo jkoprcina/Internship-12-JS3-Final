@@ -12,10 +12,15 @@
   padding-bottom: 20px;
 }
 .login-registration__nav__label {
-  padding-right: 20px;
+  padding: 10px 20px;
   font-weight: 700;
+  margin: 0 45px;
+  background-color: lightblue;
+  border-radius: 10px;
 }
-
+.login-registration__nav__label:hover{
+  cursor: pointer;
+}
 .login-registration__form {
   display: flex;
   flex-direction: column;
@@ -66,12 +71,13 @@
 .item__paragraph {
   line-height: 1.5;
   font-size: 14px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .item__price {
   font-size: 14px;
-  position: absolute;
+  display: block;
+  margin-bottom: 10px;
   bottom: 0;
   left: 0;
 }
@@ -149,31 +155,34 @@
 .modal {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: 	rgba(245,245,245, 0.6) /* color */
 }
 
-/* Modal Content */
+.container {
+  background-color: 	rgb(245,245,245);
+  width: 60%;
+  margin: 0 20%;
+  padding: 50px 0;
+}
 .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
+  background-color: 	rgb(245,245,245);
   width: 80%;
+  margin: 0 10%;
 }
 
-/* The Close Button */
 .close {
-  color: #aaaaaa;
+  background-color: rgb(192,192,192);
   float: right;
   font-size: 28px;
   font-weight: bold;
+  padding: 2px 5px;
+  border: 1px solid rgb(192,192,192);
+  border-radius: 10px;
 }
 
 .close:hover,
@@ -181,4 +190,25 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+/*SCROLL TO TOP BUTTON*/
+.scroll-to-top {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.scroll-top-top:hover {
+  background-color: #555;
 }
