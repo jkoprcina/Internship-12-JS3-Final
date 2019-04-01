@@ -231,6 +231,7 @@
   height: 100%; 
   overflow: auto; 
   background-color: 	rgba(99, 95, 95, 0.6); /* color */
+  display:none;
 }
 
 .input-div__title {

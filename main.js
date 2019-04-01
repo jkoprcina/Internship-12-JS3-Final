@@ -33,34 +33,45 @@ function createFirstPage() {
   </div>`;
 }
 
-//If bool is true then the form is a registration form, if it's false it's a login form
-let isPageLoginOrRegistration = true;
+/*If the local storage is empty then the first page must load
+as a register page, othervise it loads as a login page*/
+if (localStorage.length !== 0) {
+  login();
+}
 
 //Deciding the first page is a login page and making it into one
 function login() {
-  if (isPageLoginOrRegistration) {
-    document.querySelector(".input-div__form__button").innerHTML = "Login";
+  if (
+    document.querySelector(".input-div__form__button")
+      .innerHTML === "Register"
+  ) {
+    document.querySelector(".input-div__form__button")
+      .innerHTML = "Login";
     let form = document.querySelector(".login-registration__form");
     form.removeChild(document.querySelector("#confirmPassword"));
     form.removeChild(document.querySelector("#confirmPasswordLabel"));
-    isPageLoginOrRegistration = false;
   }
 }
 
 //Deciding the first page is a registration page and and making it into one
 function register() {
-  if (!isPageLoginOrRegistration) {
-    document.querySelector(".input-div__form__button").innerHTML =
-      "Register";
+  if (
+    document.querySelector(".input-div__form__button")
+      .innerHTML === "Login"
+  ) {
+    document.querySelector(".input-div__form__button")
+      .innerHTML = "Register";
     document.querySelector(
       ".login-registration__form"
-    ).innerHTML += `<label class="login-registration__form__label"
-                      id="confirmPasswordLabel">Confirm password</label>
-                    <input type="password"
-                      class="input-div__form__input"
-                      id="confirmPassword"
-                      placeholder="Repeat password.."/>`;
-    isPageLoginOrRegistration = true;
+    ).innerHTML += 
+      `<label 
+        class="login-registration__form__label"
+        id="confirmPasswordLabel">Confirm password</label>
+      <input 
+        type="password"
+        class="input-div__form__input"
+        id="confirmPassword"
+        placeholder="Repeat password.."/>`;
   }
 }
 
@@ -84,7 +95,6 @@ function checkIfRegistrationInformationIsOkay() {
     alert("That username is already taken, try another");
     return false;
   }
-  console.log("Is okay");
   return true;
 }
 
@@ -118,9 +128,10 @@ function checkIfUserAlreadyExists(username) {
 }
 
 function openSecondPage() {
-  //If the variable is true, does the registration code, if it's false, does the login code
-  if (isPageLoginOrRegistration) {
-    //Does the literal registration here
+  if (
+    document.querySelector(".input-div__form__button")
+      .innerHTML === "Register"
+  ) {
     if (checkIfRegistrationInformationIsOkay()) {
       let user = {
         username: document.querySelector("#username").value,
@@ -131,35 +142,41 @@ function openSecondPage() {
     }
   } else {
     if (checkIfLoginInformationIsOkay()) {
-      //Does the literal login here
-      let user = localStorage.getItem(
-        document.querySelector("#username").value
-      );
+      //Next line was made when i expected I'd need the user later
+      localStorage.getItem(document.querySelector("#username").value);
       createSecondPage();
     }
   }
 }
 
 function createSecondPage() {
+  //Divs where I'll add info later
   body.innerHTML = `<div class="main__offers""></div>
-                    <div class="modal"></div>`;
-  let placeInPageToAddCode = document.querySelector(".main__offers");
+                    <div class="modal"></div>
+                    <div class="input-div"></div>`;
+  let placeToAddScrollButton = document.querySelector(".main__offers");
   fetch("https://jsonplaceholder.typicode.com/users")
     .then(date => date.json())
     .then(users => {
+      //Adding all info to a grid
       users.forEach(function(user) {
         addMainContent(user);
       });
-      users.forEach(function(user, index){
+      //Creating events for use details and post pop ups
+      users.forEach(function(user, index) {
         addDetailsPopUp(user, index);
         addPostsPopUp(user, index);
       });
     });
-  placeInPageToAddCode.innerHTML += `<button class="scroll-to-top" 
-    onclick="goToTop()"><i class="upArrow"></i></button>`;
+    //Creating the scroll button
+    placeToAddScrollButton.innerHTML += `
+    <button class="scroll-to-top" onclick="goToTop()">
+      <i class="upArrow"></i>
+    </button>`;
 }
 
-function addMainContent(user){
+//Creates the grid as requested
+function addMainContent(user) {
   let placeInPageToAddCode = document.querySelector(".main__offers");
   placeInPageToAddCode.innerHTML += 
   `<div class ="offers__item">
@@ -171,10 +188,13 @@ function addMainContent(user){
   </div>`;
 }
 
-function addDetailsPopUp(user, index){
-  let image = document.querySelectorAll(".item__img")[index];
+//Function that creates events which display user info
+function addDetailsPopUp(user, index) {
+  //Images are selected since when they are clicked the info
+  //is displayed
+  let images = document.querySelectorAll(".item__img")[index];
   let modal = document.querySelector(".modal");
-  image.addEventListener("click", () => {
+  images.addEventListener("click", () => {
     modal.innerHTML += 
     `<div class="container">
       <div class ="modal-content">
@@ -200,25 +220,24 @@ function addDetailsPopUp(user, index){
   });
 }
 
-function addPostsPopUp(user, index){
-  let buttons = document.querySelectorAll(".item__button")[index];
+//Function that creates events which display user info
+function addPostsPopUp(user, index) {
+  let postButtons = document.querySelectorAll(".item__button")[index];
   let modal = document.querySelector(".modal");
-  buttons.addEventListener("click", () => {
-    modal.innerHTML += 
-      `<div class="container">
+  postButtons.addEventListener("click", () => {
+    modal.innerHTML += `<div class="container">
         <div class="modal-content">
           <span class="close" onclick="closeModalPopUp()">&#10006;</span>
           <h1>User ID:${user.id}</h1>
         </div>
     </div>`;
-    let basicModulDiv = document.querySelector(".container");
+    let modalContainer = document.querySelector(".container");
     fetch("https://jsonplaceholder.typicode.com/users/1/posts")
       .then(date => date.json())
       .then(postsToDisplay => {
         postsToDisplay.forEach(function(post) {
           if (post.userId === user.id) {
-            basicModulDiv.innerHTML += 
-            `<div class="modal-content">
+            modalContainer.innerHTML += `<div class="modal-content">
               <h2>Title:${post.title}</h2>
               <span>Post ID:${post.id}</span>
               <p>Post:${post.body}</p>
@@ -227,66 +246,76 @@ function addPostsPopUp(user, index){
         });
       })
       .then(() => {
-        basicModulDiv.innerHTML += 
-          `<button class="modal-content__add-post-button">
+        modalContainer.innerHTML += 
+        `<button class="modal-content__add-post-button">
             Add new Post</button>`;
-        document.querySelector(".modal-content__add-post-button")
+        document
+          .querySelector(".modal-content__add-post-button")
           .addEventListener("click", () => newPostForm(user.id));
       });
-      modal.style.display = "block";
-    });
+    modal.style.display = "block";
+  });
 }
 
 function newPostForm(id) {
-  body.innerHTML += 
-    `<div class="input-div">
-      <form class="input-div__form">
-        <span class="close" onclick="closeFormPopUp()">&#10006;</span>
-        <h1 class="input-div__title">New Post</h1><br /><br />
-        <label>Enter title:</label>
-        <input id="form-title" class="input-div__form__input" placeholder="Your title.."/>
-        <label>Enter post text:</label>
-        <textarea id="form-text" class="input-div__form__input" rows="10" cols="100" placeholder="Your text.."></textarea>
-        <button class="input-div__form__button">Submit</button>
-      </form>
-    </div>`;
-  
-  document.querySelector(".input-div__form__button")
+  let inputForm = document.querySelector(".input-div");
+  inputForm.innerHTML += 
+  `<form class="input-div__form">
+      <span class="close" onclick="closeFormPopUp()">&#10006;</span>
+      <h1 class="input-div__title">New Post</h1><br /><br />
+      <label>Enter title:</label>
+      <input 
+        id="form-title" 
+        class="input-div__form__input" 
+        placeholder="Your title.."/>
+      <label>Enter post text:</label>
+      <textarea 
+        id="form-text" 
+        class="input-div__form__input" 
+        rows="10" 
+        cols="100" 
+        placeholder="Your text.."></textarea>
+      <button class="input-div__form__button">Submit</button>
+    </form>`;
+  inputForm.style.display = "block";
+  document
+    .querySelector(".input-div__form__button")
     .addEventListener("click", () => {
-    event.preventDefault();
-    let post = {
-      title: document.querySelector("#form-title").value,
-      text: document.querySelector("#form-text").value,
-      userId : id
-    }
-    if(CheckIfPostOkay(post)){
-      createPost(post);
-    }
-  })
+      event.preventDefault();
+      let post = {
+        title: document.querySelector("#form-title").value,
+        text: document.querySelector("#form-text").value,
+        userId: id
+      };
+      if (CheckIfPostInformationIsOkay(post)) {
+        createPost(post);
+      }
+    });
 }
 
-function CheckIfPostOkay(post) {
-  if(post.title !== "" && post.text !== ""){ 
-    return true; }
+function CheckIfPostInformationIsOkay(post) {
+  if (post.title !== "" && post.text !== "") {
+    return true;
+  }
   alert("You must enter a title and post text");
-  return false; 
+  return false;
 }
 
 function createPost(post) {
-  fetch('https://jsonplaceholder.typicode.com/posts', {
-    method: 'POST',
+  fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
     body: JSON.stringify({
-        title: post.title,
-        text: post.text,
-        userId: post.userId
+      title: post.title,
+      text: post.text,
+      userId: post.userId
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8"
     }
   })
-  .then(response => response.json())
-  .then(alert("successfully created post"))
-  .then(closeFormPopUp())
+    .then(response => response.json())
+    .then(alert("successfully created post"))
+    .then(closeFormPopUp());
 }
 
 function closeModalPopUp() {
@@ -295,18 +324,12 @@ function closeModalPopUp() {
   element.innerHTML = "";
 }
 
-function closeFormPopUp(){
+function closeFormPopUp() {
   let element = document.querySelector(".input-div");
   element.style.display = "none";
   element.innerHTML = "";
-  createSecondPage();
 }
 
-//If the local storage is empty then the first page must load as a register page
-//Othervise it loads as a login page
-if (localStorage.length !== 0) {
-  login();
-}
 //event listeners
 document.querySelector("#login").addEventListener("click", login);
 document.querySelector("#register").addEventListener("click", register);
