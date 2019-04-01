@@ -253,6 +253,7 @@ function newPostForm(id) {
   
   document.querySelector(".input-div__form__button")
     .addEventListener("click", () => {
+    event.preventDefault();
     let post = {
       title: document.querySelector("#form-title").value,
       text: document.querySelector("#form-text").value,
@@ -267,6 +268,7 @@ function newPostForm(id) {
 function CheckIfPostOkay(post) {
   if(post.title !== "" && post.text !== ""){ 
     return true; }
+  alert("You must enter a title and post text");
   return false; 
 }
 
@@ -284,6 +286,7 @@ function createPost(post) {
   })
   .then(response => response.json())
   .then(alert("successfully created post"))
+  .then(closeFormPopUp())
 }
 
 function closeModalPopUp() {
@@ -293,7 +296,10 @@ function closeModalPopUp() {
 }
 
 function closeFormPopUp(){
-
+  let element = document.querySelector(".input-div");
+  element.style.display = "none";
+  element.innerHTML = "";
+  createSecondPage();
 }
 
 //If the local storage is empty then the first page must load as a register page
