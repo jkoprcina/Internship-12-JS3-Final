@@ -3,20 +3,29 @@
   width: 400px;
   height: 400px;
   margin: 200px auto;
-  border: 5px solid gray;
   border-radius: 25px;
   padding: 20px;
+  background-color:	#f2f2f2;
 }
 
 .login-registration__nav {
-  padding-bottom: 20px;
+  padding: 20px 0 30px 0;
+  text-align: center;
 }
 .login-registration__nav__label {
   padding: 10px 20px;
-  font-weight: 700;
-  margin: 0 45px;
-  background-color: lightblue;
+  margin: 0 10px;
+  background-color: #4CAF50;
   border-radius: 10px;
+  color: white;
+}
+
+#login {
+  text-align: right;
+}
+
+#register {
+  text-align: left;
 }
 .login-registration__nav__label:hover{
   cursor: pointer;
@@ -25,21 +34,8 @@
   display: flex;
   flex-direction: column;
 }
-
-.login-registration__form__label {
-  padding: 5px;
-  margin: 0 5px;
-}
-
-.login-registration__form__input {
-  padding: 5px;
-  margin: 0 5px;
-}
-
-.login-registration__button {
-  margin: 100px 150px;
-  padding: 15px 20px;
-}
+/*Uses css from the bottom of the page as well 
+  around line 240 of css*/
 
 /*CSS FOR THE SECOND PAGE, DISPLAYING ELEMENTS FROM THE API*/
 .main__offers {
@@ -57,15 +53,6 @@
   width: 260px;
   position: relative;
   z-index: 0;
-}
-
-.offers__item__hover__heart {
-  opacity: 1;
-}
-
-.offers__item__hover__description {
-  opacity: 1;
-  top: 297px;
 }
 
 .item__paragraph {
@@ -88,6 +75,7 @@
 
 .item__img {
   width: 100%;
+  cursor: pointer;
 }
 
 .item__heart-shape, .item__heart-full {
@@ -120,7 +108,9 @@
 
 .item__button {
   border: 1px solid black;
-  border-radius: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px 20px;
 }
 
 /* 
@@ -160,7 +150,8 @@
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: 	rgba(245,245,245, 0.6) /* color */
+  background-color: 	rgba(245,245,245, 0.6); /* color */
+  display: none;
 }
 
 .container {
@@ -192,23 +183,86 @@
   cursor: pointer;
 }
 
+.modal-content__add-post-button{
+  justify-content: center;
+  padding: 5px 10px;
+  border: 1px solid silver;
+  border-radius: 10px;
+  margin: 40px 35%;
+  width: 30%;
+}
+
 /*SCROLL TO TOP BUTTON*/
 .scroll-to-top {
   display: none;
   position: fixed;
   bottom: 20px;
   right: 30px;
-  z-index: 99;
+  z-index: 2;
   font-size: 18px;
   border: none;
   outline: none;
-  background-color: red;
-  color: white;
+  background-color: silver;
   cursor: pointer;
-  padding: 15px;
+  padding: 10px 15px;
   border-radius: 4px;
 }
 
 .scroll-top-top:hover {
   background-color: #555;
+}
+
+.upArrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+/*INPUT FORM CSS*/
+.input-div {
+  position: fixed; 
+  z-index: 2; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: 	rgba(99, 95, 95, 0.6); /* color */
+}
+
+.input-div__title {
+  margin-top: 0;
+  text-align: center;
+}
+.input-div__form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  margin: 15%;
+  padding: 50px 20px;
+}
+
+.input-div__form__input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.input-div__form__button {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 20px 0 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
